@@ -20,7 +20,7 @@ import {
   HoverCardContent,
   HoverCardTrigger
 } from '@/components/ui/hover-card'
-import { Label } from '@/components/ui/label'
+
 import {
   Popover,
   PopoverContent,
@@ -63,7 +63,7 @@ export function ModelSelector({ models, types, ...props }: ModelSelectorProps) {
             role="combobox"
             aria-expanded={open}
             aria-label="Select a model"
-            className="w-full justify-between"
+            className="w-15 justify-between overflow-hidden text-ellipsis whitespace-nowrap"
           >
             {selectedModel ? selectedModel.name : 'Select a model...'}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -75,7 +75,7 @@ export function ModelSelector({ models, types, ...props }: ModelSelectorProps) {
               side="left"
               align="start"
               forceMount
-              className="min-h-[280px]"
+              className="hidden min-h-[280px] sm:block"
             >
               <div className="grid gap-2">
                 <h4 className="font-medium leading-none">{peekedModel.name}</h4>
@@ -96,7 +96,6 @@ export function ModelSelector({ models, types, ...props }: ModelSelectorProps) {
             </HoverCardContent>
             <Command loop>
               <CommandList className="h-[var(--cmdk-list-height)] max-h-[400px]">
-                <CommandInput placeholder="Search Models..." />
                 <CommandEmpty>No Models found.</CommandEmpty>
                 <HoverCardTrigger />
                 {types.map(type => (
