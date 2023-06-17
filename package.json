@@ -10,6 +10,8 @@
     "lint:fix": "next lint --fix",
     "preview": "next build && next start",
     "type-check": "tsc --noEmit",
+    "app:docker:build": "COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose build",
+    "app:docker:up": "docker-compose up",
     "format:write": "prettier --write \"{app,lib,components}/**/*.{ts,tsx,mdx}\" --cache",
     "format:check": "prettier --check \"{app,lib,components}**/*.{ts,tsx,mdx}\" --cache"
   },
