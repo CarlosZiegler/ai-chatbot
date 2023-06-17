@@ -2,7 +2,6 @@
 
 import * as React from 'react'
 import { PopoverProps } from '@radix-ui/react-popover'
-import { Check, ChevronsUpDown } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 import { useMutationObserver } from '@/lib/hooks/use-mutation-observer'
@@ -11,7 +10,6 @@ import {
   Command,
   CommandEmpty,
   CommandGroup,
-  CommandInput,
   CommandItem,
   CommandList
 } from '@/components/ui/command'
@@ -26,27 +24,27 @@ import {
   PopoverContent,
   PopoverTrigger
 } from '@/components/ui/popover'
-import { Model, ModelType } from '@/constants/models'
-import { useAtom } from 'jotai'
-import { modelAtom } from '@/lib/store'
+import { Model, models, types } from '@/constants/models'
+import { IconCheck, IconChevronUpDown } from '@/components/ui/icons'
 
 interface ModelSelectorProps extends PopoverProps {
-  types: readonly ModelType[]
-  models: Model[]
+  setModel: (model: Model) => void
+  model: Model
 }
 
-export function ModelSelector({ models, types, ...props }: ModelSelectorProps) {
+export function ModelSelector({
+  setModel,
+  model,
+  ...props
+}: ModelSelectorProps) {
   const [open, setOpen] = React.useState(false)
 
-  const [selectedModel, setSelectedModel] = useAtom(modelAtom)
   const [peekedModel, setPeekedModel] = React.useState<Model>(models[0])
 
   return (
     <div className="grid gap-2">
       <HoverCard openDelay={200}>
-        <HoverCardTrigger asChild>
-          {/* <Label htmlFor="model">Model</Label> */}
-        </HoverCardTrigger>
+        <HoverCardTrigger asChild></HoverCardTrigger>
         <HoverCardContent
           align="start"
           className="w-[260px] text-sm"
@@ -65,8 +63,8 @@ export function ModelSelector({ models, types, ...props }: ModelSelectorProps) {
             aria-label="Select a model"
             className="w-15 justify-between overflow-hidden text-ellipsis whitespace-nowrap"
           >
-            {selectedModel ? selectedModel.name : 'Select a model...'}
-            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            {model ? model.name : 'Select a model...'}
+            <IconChevronUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent align="end" className="w-[250px] p-0">
@@ -106,10 +104,10 @@ export function ModelSelector({ models, types, ...props }: ModelSelectorProps) {
                         <ModelItem
                           key={model.id}
                           model={model}
-                          isSelected={selectedModel?.id === model.id}
+                          isSelected={model?.id === model.id}
                           onPeek={model => setPeekedModel(model)}
                           onSelect={() => {
-                            setSelectedModel(model)
+                            setModel(model)
                             setOpen(false)
                           }}
                         />
@@ -153,7 +151,7 @@ function ModelItem({ model, isSelected, onSelect, onPeek }: ModelItemProps) {
       className="aria-selected:bg-primary aria-selected:text-primary-foreground"
     >
       {model.name}
-      <Check
+      <IconCheck
         className={cn(
           'ml-auto h-4 w-4',
           isSelected ? 'opacity-100' : 'opacity-0'
