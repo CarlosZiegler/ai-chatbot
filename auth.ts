@@ -12,7 +12,7 @@ export const {
   callbacks: {
     // @ts-ignore
     jwt: async ({ token, profile }) => {
-      // console.log('jwt - token', token, profile)
+      console.log('jwt - token', token, profile)
       if (profile?.id) {
         token.id = profile.id
         token.image = profile.picture
