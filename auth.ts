@@ -18,12 +18,12 @@ export const {
         token.image = profile.picture
       }
       return token
-    },
-    // @TODO
-    authorized({ request, auth }: any) {
-      console.log('authorized', auth)
-      return !!auth?.user
     }
+    // @TODO
+    // authorized({ request, auth }: any) {
+    //   console.log('authorized', auth)
+    //   return !!auth?.user
+    // }
   },
   pages: {
     signIn: '/sign-in'
