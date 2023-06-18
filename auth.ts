@@ -10,6 +10,9 @@ export const {
   // @ts-ignore
   providers: [GitHub],
   callbacks: {
+    async signIn({ user, account, profile, email, credentials }: any) {
+      return true
+    },
     // @ts-ignore
     jwt: async ({ token, profile }) => {
       console.log('jwt - token', token, profile)
@@ -18,6 +21,12 @@ export const {
         token.image = profile.picture
       }
       return token
+    },
+    session: async ({ session, token, user }: any) => {
+      console.log('session', session, token, user)
+      session.user.id = token.id
+      session.user.image = token.image
+      return session
     }
     // @TODO
     // authorized({ request, auth }: any) {
