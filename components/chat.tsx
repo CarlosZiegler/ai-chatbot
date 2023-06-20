@@ -48,19 +48,22 @@ export function Chat({ id, initialMessages, className }: ChatProps) {
         model: model
       }
     })
+
+  const isAuthError = error?.message.includes('Unauthorized')
+
   return (
     <>
       <div className={cn('pb-[200px] pt-4 md:pt-10', className)}>
-        {messages.length ? (
+        {messages.length > 0 ? (
           <>
             <ChatList messages={messages} />
             <ChatScrollAnchor trackVisibility={isLoading} />
           </>
-        ) : (
+        ) : !isLoading ? (
           <EmptyScreen setInput={setInput} />
-        )}
+        ) : null}
       </div>
-      {error && <AlertAuth />}
+      {isAuthError && <AlertAuth />}
       <ChatPanel
         id={id}
         isLoading={isLoading}
