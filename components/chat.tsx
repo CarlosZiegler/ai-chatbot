@@ -19,6 +19,8 @@ import {
 import { useState } from 'react'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
+import { Model, models } from '@/constants/models'
+import { AlertAuth } from './alert-auth'
 
 const IS_PREVIEW = process.env.VERCEL_ENV === 'preview'
 export interface ChatProps extends React.ComponentProps<'div'> {
@@ -31,15 +33,19 @@ export function Chat({ id, initialMessages, className }: ChatProps) {
     'ai-token',
     null
   )
+
+  const [model, setModel] = useState<Model>(models[0])
+
   const [previewTokenDialog, setPreviewTokenDialog] = useState(IS_PREVIEW)
   const [previewTokenInput, setPreviewTokenInput] = useState(previewToken ?? '')
-  const { messages, append, reload, stop, isLoading, input, setInput } =
+  const { messages, append, reload, stop, isLoading, input, setInput, error } =
     useChat({
       initialMessages,
       id,
       body: {
         id,
-        previewToken
+        previewToken,
+        model: model
       }
     })
   return (
@@ -54,6 +60,7 @@ export function Chat({ id, initialMessages, className }: ChatProps) {
           <EmptyScreen setInput={setInput} />
         )}
       </div>
+      {error && <AlertAuth />}
       <ChatPanel
         id={id}
         isLoading={isLoading}
@@ -63,6 +70,8 @@ export function Chat({ id, initialMessages, className }: ChatProps) {
         messages={messages}
         input={input}
         setInput={setInput}
+        setModel={setModel}
+        model={model}
       />
 
       <Dialog open={previewTokenDialog} onOpenChange={setPreviewTokenDialog}>

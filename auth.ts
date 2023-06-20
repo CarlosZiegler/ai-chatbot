@@ -25,7 +25,8 @@ export const {
       return token
     }
     // @TODO
-    // authorized({ request, auth }) {
+    // authorized({ request, auth }: any) {
+    //   console.log('authorized', auth)
     //   return !!auth?.user
     // }
   },
